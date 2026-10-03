@@ -14,6 +14,7 @@ const jsoning = require("jsoning"); // Documentation: https://jsoning.js.org/
 // magmastream is a maintained fork of erela.js that speaks the Lavalink v4 protocol
 const { Manager } = require("magmastream");
 require("./daveVoicePatch"); // sends the voice channel ID Discord's encrypted voice (DAVE) needs
+require("./restTimeoutPatch"); // time limit + error logging for requests to Lavalink servers
 const ConfigFetcher = require("../util/getConfig");
 const Logger = require("./Logger");
 const Server = require("../api");
@@ -152,7 +153,7 @@ class DiscordMusicBot extends Client {
         const version = info?.version?.semver;
         this.log(
           `Node: ${node.options.identifier} | Lavalink node is connected.` +
-            (version ? ` Server version: ${version}` : "")
+            ` Server version: ${version || "unknown (server did not answer the version check)"}`
         );
       })
       .on("nodeReconnect", (node) =>
