@@ -16,6 +16,12 @@ const num = (name, def) => {
 	return Number.isNaN(v) ? def : v;
 };
 
+/** Reads an env var that must be one of `allowed` (case-insensitive), falling back to `def`. */
+const oneOf = (name, allowed, def) => {
+	const v = (process.env[name] || "").trim();
+	return allowed.find((a) => a.toLowerCase() === v.toLowerCase()) || def;
+};
+
 // Hosts tell the app which port to listen on via PORT; 4200 is the local default.
 const port = num("PORT", 4200);
 
@@ -75,13 +81,15 @@ module.exports = {
 		},
 	],
 	embedColor: "#2f3136", //- Color of the embeds, hex supported
+	// What the bot shows in Discord's member list, e.g. "Listening to Music".
+	// Set these in your host's environment variables to change it without editing code.
 	presence: {
 		// PresenceData object | https://discord.js.org/#/docs/main/stable/typedef/PresenceData
-		status: "online", //- You can have online, idle, dnd and invisible (Note: invisible makes people think the bot is offline)
+		status: oneOf("BOT_STATUS", ["online", "idle", "dnd", "invisible"], "online"), //- The colored dot (Note: invisible makes people think the bot is offline)
 		activities: [
 			{
-				name: "Music", //- Status Text
-				type: "LISTENING", //- PLAYING, WATCHING, LISTENING, STREAMING
+				name: process.env.ACTIVITY_TEXT || "Music", //- Status Text
+				type: oneOf("ACTIVITY_TYPE", ["PLAYING", "LISTENING", "WATCHING", "COMPETING"], "LISTENING"), //- "Playing ...", "Listening to ...", "Watching ...", "Competing in ..."
 			},
 		],
 	},
