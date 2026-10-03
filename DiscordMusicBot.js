@@ -145,11 +145,16 @@ class DiscordMusicBot extends Client {
         }
       },
     })
-      .on("nodeConnect", (node) =>
+      .on("nodeConnect", async (node) => {
+        // Log the server's Lavalink version: Discord's encrypted voice (DAVE)
+        // needs a recent server, so this shows at a glance whether a node can play audio.
+        const info = await node.rest.get("/v4/info").catch(() => null);
+        const version = info?.version?.semver;
         this.log(
-          `Node: ${node.options.identifier} | Lavalink node is connected.`
-        )
-      )
+          `Node: ${node.options.identifier} | Lavalink node is connected.` +
+            (version ? ` Server version: ${version}` : "")
+        );
+      })
       .on("nodeReconnect", (node) =>
         this.warn(
           `Node: ${node.options.identifier} | Lavalink node is reconnecting.`
