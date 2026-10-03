@@ -1,7 +1,7 @@
 /**
  *
  * @param {import("../lib/DiscordMusicBot")} client
- * @returns {import("erela.js").Node | undefined}
+ * @returns {import("magmastream").Node | undefined}
  */
 module.exports = async (client) => {
   return new Promise((resolve) => {

@@ -44,7 +44,7 @@ const command = new SlashCommand()
 
     try {
       res = await player.search(search, interaction.user);
-      if (res.loadType === "LOAD_FAILED") {
+      if (res.loadType === "error") {
         return interaction.reply({
           embeds: [
             new MessageEmbed()
@@ -67,7 +67,7 @@ const command = new SlashCommand()
       });
     }
 
-    if (res.loadType == "NO_MATCHES") {
+    if (res.loadType == "empty") {
       return interaction.reply({
         embeds: [
           new MessageEmbed()

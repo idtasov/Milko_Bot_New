@@ -21,8 +21,8 @@ const command = new SlashCommand()
 			player.connect(true);
 		}
 		
-		if (channel.id !== player.voiceChannel) {
-			player.setVoiceChannel(channel.id);
+		if (channel.id !== player.voiceChannelId) {
+			player.setVoiceChannelId(channel.id);
 			player.connect();
 		}
 		

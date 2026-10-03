@@ -72,7 +72,7 @@ module.exports = async (client, interaction) => {
                 result.forEach(x => { choice.push({ name: x.title, value: x.url }) })
             });
             return await interaction.respond(choice).catch(() => { });
-        } else if (result.loadType === "LOAD_FAILED" || "NO_MATCHES")
+        } else if (result.loadType === "error" || "empty")
             return;
     }
 };

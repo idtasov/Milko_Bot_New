@@ -44,7 +44,6 @@ const command = new SlashCommand()
 			],
 		})}
 		
-		player.queue.previous = player.queue.current;
 		player.stop();
 		
 		interaction.reply({

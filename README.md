@@ -21,9 +21,14 @@ What do you gain from it? Let us explain:
  - More commands and functionalities
  - And so much more to come!
 
+## ☁️ | Free Hosting
+
+See **[HOSTING.md](HOSTING.md)** for step-by-step instructions to run the bot 24/7 for free on Render with a public Lavalink node.
+All settings are read from environment variables. See [`.env.example`](.env.example).
+
 ## 🚧 | Prerequisites
 
-- [Node.js 16+](https://nodejs.org/en/download/)
+- [Node.js 18+](https://nodejs.org/en/download/)
 - [Lavalink Server](https://code.darrennathanael.com/how-to-lavalink)
 - You'll need to run `npm run deploy` or `yarn deploy`. to initialized the slash commands. _You can do this on your pc
   locally_
@@ -41,14 +46,14 @@ What do you gain from it? Let us explain:
 ## 📝 | Tutorial
 
 ### 🐳 Docker
-You should configure the `config.js` file with the host `"lavalink"`, using the same `password` and `port` as specified in `docker/application.yml`.
+Copy `.env.example` to `.env` and fill in the Discord values. `docker-compose.yml` already points the bot at the bundled Lavalink container.
 
 Build and start bot and lavalink
 ```sh
 docker-compose up -d --build
 ```
 ### 💪🏻 Non-Docker
-> The `config.js` file should be configured first. Don't forget to add a lavalink host
+> Copy `.env.example` to `.env` and fill it in first. Don't forget to add a lavalink host
 
 Install all dependencies and deploy Slash Commands
 ```sh

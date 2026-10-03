@@ -13,6 +13,12 @@ router.get("/", (req, res) => {
 	res.sendFile(join(dist, "index.html"));
 });
 
+// Lightweight endpoint for the host's health check and for uptime pingers
+// (e.g. UptimeRobot), which keep free-tier instances from going to sleep.
+router.get("/health", (_req, res) => {
+	res.status(200).send("OK");
+});
+
 router.get("/login", (req, res) => {
 	res.sendFile(join(dist, "login.html"));
 });

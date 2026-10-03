@@ -47,11 +47,11 @@ const command = new SlashCommand()
 			  text: `The player will ${!autoLeave ? "now automatically" : "not automatically"} leave when the voice channel is empty.`
 			});
     client.warn(
-      `Player: ${player.options.guild} | [${colors.blue(
+      `Player: ${player.guildId} | [${colors.blue(
         "autoLeave"
       )}] has been [${colors.blue(!autoLeave ? "ENABLED" : "DISABLED")}] in ${
-        client.guilds.cache.get(player.options.guild)
-          ? client.guilds.cache.get(player.options.guild).name
+        client.guilds.cache.get(player.guildId)
+          ? client.guilds.cache.get(player.guildId).name
           : "a guild"
       }`
     );

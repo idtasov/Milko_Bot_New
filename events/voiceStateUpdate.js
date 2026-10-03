@@ -48,10 +48,10 @@ module.exports = async (client, oldState, newState) => {
 	}
 	// move check first as it changes type
 	if (stateChange.type === "MOVE") {
-		if (oldState.channel.id === player.voiceChannel) {
+		if (oldState.channel.id === player.voiceChannelId) {
 			stateChange.type = "LEAVE";
 		}
-		if (newState.channel.id === player.voiceChannel) {
+		if (newState.channel.id === player.voiceChannelId) {
 			stateChange.type = "JOIN";
 		}
 	}
@@ -64,7 +64,7 @@ module.exports = async (client, oldState, newState) => {
 	}
 	
 	// check if the bot's voice channel is involved (return otherwise)
-	if (!stateChange.channel || stateChange.channel.id !== player.voiceChannel) {
+	if (!stateChange.channel || stateChange.channel.id !== player.voiceChannelId) {
 		return;
 	}
         player.prevMembers = player.members
@@ -84,7 +84,7 @@ module.exports = async (client, oldState, newState) => {
 						.setFooter({ text: `The current song has been resumed.` });
 					
 					let resumeMessage = await client.channels.cache
-						.get(player.textChannel)
+						.get(player.textChannelId)
 						.send({ embeds: [playerResumed] });
 					player.setResumeMessage(client, resumeMessage);
 					
@@ -112,7 +112,7 @@ module.exports = async (client, oldState, newState) => {
 						});
 					
 					let pausedMessage = await client.channels.cache
-						.get(player.textChannel)
+						.get(player.textChannelId)
 						.send({ embeds: [playerPaused] });
 					player.setPausedMessage(client, pausedMessage);
 				}
@@ -131,7 +131,7 @@ module.exports = async (client, oldState, newState) => {
 									.setFooter({ text: "Left because there is no one left in the voice channel." })
 									.setTimestamp();
 								let Disconnected = await client.channels.cache
-									.get(player.textChannel)
+									.get(player.textChannelId)
 									.send({ embeds: [leftEmbed] });
 								setTimeout(() => Disconnected.delete(true), 5000);
 								player.queue.clear();
@@ -149,7 +149,7 @@ module.exports = async (client, oldState, newState) => {
 							.setFooter({ text: "Left because there is no one left in the voice channel." })
 							.setTimestamp();
 						let Disconnected = await client.channels.cache
-							.get(player.textChannel)
+							.get(player.textChannelId)
 							.send({ embeds: [leftEmbed] });
 						setTimeout(() => Disconnected.delete(true), 5000);
 						player.destroy();	
@@ -168,7 +168,7 @@ module.exports = async (client, oldState, newState) => {
 						});
 					
 					let pausedMessage = await client.channels.cache
-						.get(player.textChannel)
+						.get(player.textChannelId)
 						.send({ embeds: [playerPaused] });
 					player.setPausedMessage(client, pausedMessage);
 					setTimeout(async () => {
@@ -183,7 +183,7 @@ module.exports = async (client, oldState, newState) => {
 								.setFooter({ text: "Left because there is no one left in the voice channel." })
 								.setTimestamp();
 							let Disconnected = await client.channels.cache
-								.get(player.textChannel)
+								.get(player.textChannelId)
 								.send({ embeds: [leftEmbed] });
 							setTimeout(() => Disconnected.delete(true), 5000);
 							pausedMessage.delete(true);
@@ -203,7 +203,7 @@ module.exports = async (client, oldState, newState) => {
 						.setFooter({ text: "Left because there is no one left in the voice channel." })
 						.setTimestamp();
 						let Disconnected = await client.channels.cache
-							.get(player.textChannel)
+							.get(player.textChannelId)
 							.send({ embeds: [leftEmbed] });
 						setTimeout(() => Disconnected.delete(true), 5000);
 						player.destroy();

@@ -50,11 +50,11 @@ const command = new SlashCommand()
 		    text: `Related music will ${!autoQueue ? "now be automatically" : "no longer be"} added to the queue.`
       });
 		client.warn(
-			`Player: ${ player.options.guild } | [${ colors.blue(
+			`Player: ${ player.guildId } | [${ colors.blue(
 				"AUTOQUEUE",
 			) }] has been [${ colors.blue(!autoQueue? "ENABLED" : "DISABLED") }] in ${
-				client.guilds.cache.get(player.options.guild)
-					? client.guilds.cache.get(player.options.guild).name
+				client.guilds.cache.get(player.guildId)
+					? client.guilds.cache.get(player.guildId).name
 					: "a guild"
 			}`,
 		);

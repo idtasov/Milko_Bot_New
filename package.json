@@ -13,14 +13,15 @@
     "destroy-global": "node deploy/destroyGlobal",
     "ddev": "cd dashboard && npm run dev",
     "dbuild": "cd dashboard && npm run build && npm run export",
-    "dstart": "cd dashboard && npm run start"
+    "dstart": "cd dashboard && npm run start",
+    "deploy-and-start": "node deploy/deployGlobal && node index"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SudhanPlayz/Discord-MusicBot.git"
   },
   "engines": {
-    "node": ">=16.x <=16.16"
+    "node": ">=18"
   },
   "keywords": [
     "discord",
@@ -42,18 +43,12 @@
     "@discordjs/builders": "^1.4.0",
     "@discordjs/rest": "^1.5.0",
     "axios": "^0.27.0",
-    "better-erela.js-apple": "^0.1.0",
-    "better-erela.js-spotify": "1.3.9",
     "colors": "1.3.3",
     "discord-api-types": "0.37.1",
     "discord-together": "^1.3.25",
     "discord.js": "^13.14.0",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.6",
-    "erela.js": "^2.3.3",
-    "erela.js-deezer": "^1.0.7",
-    "erela.js-facebook": "^1.0.4",
-    "erela.js-filters": "^1.2.6",
     "express": "^4.17.1",
     "express-rate-limit": "^6.2.0",
     "express-session": "^1.17.3",
@@ -61,6 +56,7 @@
     "js-yaml": "^4.1.0",
     "jsoning": "^0.13.0",
     "lodash": "^4.17.21",
+    "magmastream": "2.8.7",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "node-fetch": "2.6.7",
@@ -75,9 +71,5 @@
   },
   "devDependencies": {
     "prettier": "2.6.2"
-  },
-  "volta": {
-    "node": "16.15.1",
-    "yarn": "3.3.0"
   }
 }

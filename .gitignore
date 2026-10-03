@@ -3,6 +3,8 @@ db.json
 dbList.json
 .guild_dbs/
 dev-config.js
+# magmastream's runtime player/session cache
+magmastream/
 
 # Logs
 logs

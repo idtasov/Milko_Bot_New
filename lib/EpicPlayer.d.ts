@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Player } from "erela.js";
+import { Player } from "magmastream";
 import DiscordMusicBot from "./DiscordMusicBot";
 
 declare class EpicPlayer extends Player {

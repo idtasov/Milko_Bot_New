@@ -58,11 +58,11 @@ const command = new SlashCommand()
     let res = await player.search(query, interaction.user).catch((err) => {
       client.error(err);
       return {
-        loadType: "LOAD_FAILED",
+        loadType: "error",
       };
     });
 
-    if (res.loadType === "LOAD_FAILED") {
+    if (res.loadType === "error") {
       if (!player.queue.current) {
         player.destroy();
       }
@@ -77,7 +77,7 @@ const command = new SlashCommand()
         .catch(this.warn);
     }
 
-    if (res.loadType === "NO_MATCHES") {
+    if (res.loadType === "empty") {
       if (!player.queue.current) {
         player.destroy();
       }
@@ -92,7 +92,7 @@ const command = new SlashCommand()
         .catch(this.warn);
     }
 
-    if (res.loadType === "TRACK_LOADED" || res.loadType === "SEARCH_RESULT") {
+    if (res.loadType === "track" || res.loadType === "search") {
       player.queue.add(res.tracks[0]);
 
       if (!player.playing && !player.paused && !player.queue.size) {
@@ -138,14 +138,12 @@ const command = new SlashCommand()
           value: `${player.queue.size}`,
           inline: true,
         });
-      } else {
-        player.queue.previous = player.queue.current;
       }
 
       await interaction.editReply({ embeds: [addQueueEmbed] }).catch(this.warn);
     }
 
-    if (res.loadType === "PLAYLIST_LOADED") {
+    if (res.loadType === "playlist") {
       player.queue.add(res.tracks);
 
       if (

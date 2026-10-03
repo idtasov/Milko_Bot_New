@@ -56,42 +56,44 @@ const command = new SlashCommand()
 			});
 		}
 		
+		// Filters are applied through magmastream's built-in player.filters API
+		// (replaces the old erela.js-filters plugin, which only worked with Lavalink v3)
 		// create a new embed
 		let filtersEmbed = new MessageEmbed().setColor(client.config.embedColor);
 		
 		if (args == "nightcore") {
 			filtersEmbed.setDescription("✅ | Nightcore filter is now active!");
-			player.nightcore = true;
+			await player.filters.nightcore(true);
 		} else if (args == "bassboost") {
 			filtersEmbed.setDescription("✅ | BassBoost filter is now on!");
-			player.bassboost = true;
+			await player.filters.bassBoost(2);
 		} else if (args == "vaporwave") {
 			filtersEmbed.setDescription("✅ | Vaporwave filter is now on!");
-			player.vaporwave = true;
+			await player.filters.vaporwave(true);
 		} else if (args == "pop") {
 			filtersEmbed.setDescription("✅ | Pop filter is now on!");
-			player.pop = true;
+			await player.filters.pop(true);
 		} else if (args == "soft") {
 			filtersEmbed.setDescription("✅ | Soft filter is now on!");
-			player.soft = true;
+			await player.filters.soft(true);
 		} else if (args == "treblebass") {
 			filtersEmbed.setDescription("✅ | Treblebass filter is now on!");
-			player.treblebass = true;
+			await player.filters.trebleBass(true);
 		} else if (args == "eightD") {
 			filtersEmbed.setDescription("✅ | Eight Dimension filter is now on!");
-			player.eightD = true;
+			await player.filters.eightD(true);
 		} else if (args == "karaoke") {
 			filtersEmbed.setDescription("✅ | Karaoke filter is now on!");
-			player.karaoke = true;
+			await player.filters.setKaraoke({ level: 1, monoLevel: 1, filterBand: 220, filterWidth: 100 });
 		} else if (args == "vibrato") {
 			filtersEmbed.setDescription("✅ | Vibrato filter is now on!");
-			player.vibrato = true;
+			await player.filters.setVibrato({ frequency: 10, depth: 0.9 });
 		} else if (args == "tremolo") {
 			filtersEmbed.setDescription("✅ | Tremolo filter is now on!");
-			player.tremolo = true;
+			await player.filters.tremolo(true);
 		} else if (args == "off") {
 			filtersEmbed.setDescription("✅ | EQ has been cleared!");
-			player.reset();
+			await player.filters.clearFilters();
 		} else {
 			filtersEmbed.setDescription("❌ | Invalid filter!");
 		}

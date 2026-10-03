@@ -34,13 +34,11 @@ const command = new SlashCommand()
 		});
 	}
 
-	const previousSong = player.queue.previous;
+	// magmastream keeps a history of finished tracks; the newest one is last
+	const previousSong = player.queue.previous[player.queue.previous.length - 1];
 	const currentSong = player.queue.current;
-	const nextSong = player.queue[0]
 
-	if (!previousSong
-		|| previousSong === currentSong
-		|| previousSong === nextSong) {
+	if (!previousSong) {
 		return interaction.reply({
 			embeds: [
 				new MessageEmbed()
@@ -49,10 +47,12 @@ const command = new SlashCommand()
 			],
 		})}
 
-	if (previousSong !== currentSong && previousSong !== nextSong) {
-		player.queue.splice(0, 0, currentSong)
-		player.play(previousSong);
+	// Put the current song back at the front of the queue so it plays next,
+	// then let magmastream pop and play the previous track
+	if (currentSong) {
+		player.queue.add(currentSong, 0);
 	}
+	await player.previous();
 	interaction.reply({
 		embeds: [
 			new MessageEmbed()

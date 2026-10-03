@@ -31,7 +31,11 @@ class Server extends EventEmitter {
 	init(conf) {
 		this.config = conf;
 		this.app = express();
-		
+
+		// Cloud hosts terminate HTTPS at a proxy in front of the app; trusting it
+		// lets Express see the request as HTTPS so secure session cookies work.
+		this.app.set("trust proxy", 1);
+
 		this.app.use(express.static(join(__dirname, "..", "public")));
 		
 		// Static Routes for scripts
@@ -97,7 +101,8 @@ class Server extends EventEmitter {
 	}
 
 	listen() {
-		this.app.listen(this.config.port);
+		// Bind to all interfaces so the host's router can reach the server
+		this.app.listen(this.config.port, "0.0.0.0");
 		console.log("[SERVER] Listening on port:", this.config.port);
 	}
 }

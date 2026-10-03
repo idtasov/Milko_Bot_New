@@ -10,11 +10,18 @@ services:
       - lavalink-net
     depends_on:
       - lavalink
-    volumes:
-      - ./config.js:/usr/src/app/config.js:ro
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Points the bot at the bundled Lavalink container (see docker/application.yml)
+      LAVALINK_HOST: lavalink
+      LAVALINK_PORT: 2333
+      LAVALINK_PASSWORD: youshallnotpass
+      LAVALINK_SECURE: "false"
 
   lavalink:
-    image: fredboat/lavalink:3.7.12
+    image: ghcr.io/lavalink-devs/lavalink:4 # v4 server, matches the bot's magmastream client
     container_name: music-lavalink
     hostname: lavalink
     restart: unless-stopped

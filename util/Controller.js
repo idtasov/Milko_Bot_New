@@ -45,7 +45,7 @@ module.exports = async (client, interaction) => {
 		player.queue.clear();
 		player.stop();
 		player.set("autoQueue", false);
-		client.warn(`Player: ${ player.options.guild } | Successfully stopped the player`);
+		client.warn(`Player: ${ player.guildId } | Successfully stopped the player`);
 		const msg = await interaction.channel.send({
 			embeds: [
 				client.Embed(
@@ -58,34 +58,31 @@ module.exports = async (client, interaction) => {
 		}, 5000);
 
 		interaction.update({
-			components: [client.createController(player.options.guild, player)],
+			components: [client.createController(player.guildId, player)],
 		});
 		return;
 	}
 
 	// if theres no previous song, return an error.
 	if (property === "Replay") {
-		const previousSong = player.queue.previous;
-		const currentSong = player.queue.current;
-		const nextSong = player.queue[0]
-        if (!player.queue.previous ||
-            player.queue.previous === player.queue.current ||
-            player.queue.previous === player.queue[0]) {
-            
-           return interaction.reply({
-                        ephemeral: true,
-			embeds: [
-				new MessageEmbed()
-					.setColor("RED")
-					.setDescription(`There is no previous song played.`),
-			],
-		});
-    }
-		if (previousSong !== currentSong && previousSong !== nextSong) {
-			player.queue.splice(0, 0, currentSong)
-			player.play(previousSong);
-			return interaction.deferUpdate();
+		// magmastream keeps a history of finished tracks; the newest one is last
+		const previousSong = player.queue.previous[player.queue.previous.length - 1];
+		if (!previousSong) {
+			return interaction.reply({
+				ephemeral: true,
+				embeds: [
+					new MessageEmbed()
+						.setColor("RED")
+						.setDescription(`There is no previous song played.`),
+				],
+			});
 		}
+		// Re-queue the current song first so it plays after the previous one
+		if (player.queue.current) {
+			player.queue.add(player.queue.current, 0);
+		}
+		await player.previous();
+		return interaction.deferUpdate();
 	}
 
 	if (property === "PlayAndPause") {
@@ -109,10 +106,10 @@ module.exports = async (client, interaction) => {
 			} else {
 				player.pause(true);
 			}
-			client.warn(`Player: ${ player.options.guild } | Successfully ${ player.paused? "paused" : "resumed" } the player`);
+			client.warn(`Player: ${ player.guildId } | Successfully ${ player.paused? "paused" : "resumed" } the player`);
 
 			return interaction.update({
-				components: [client.createController(player.options.guild, player)],
+				components: [client.createController(player.guildId, player)],
 			});
 		}
 	}
@@ -141,10 +138,10 @@ module.exports = async (client, interaction) => {
 		} else {
 			player.setTrackRepeat(true);
 		}
-		client.warn(`Player: ${player.options.guild} | Successfully toggled loop ${player.trackRepeat ? "on" : player.queueRepeat ? "queue on" : "off"} the player`);
+		client.warn(`Player: ${player.guildId} | Successfully toggled loop ${player.trackRepeat ? "on" : player.queueRepeat ? "queue on" : "off"} the player`);
 
 		interaction.update({
-			components: [client.createController(player.options.guild, player)],
+			components: [client.createController(player.guildId, player)],
 		});
 		return;
 	}
