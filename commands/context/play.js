@@ -142,7 +142,9 @@ module.exports = {
     }
 
     if (res.loadType === "playlist") {
-      player.queue.add(res.tracks);
+      // Pass a copy: magmastream's queue.add removes the first track from the array it's
+      // given (to make it the current song), which would break the length check below.
+      player.queue.add([...res.tracks]);
 
       if (
         !player.playing &&
