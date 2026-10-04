@@ -1,0 +1,87 @@
+# Lavalink config for your own Lavalink 4.2+ server (e.g. a Wispbyte Lavalink node).
+# Paste this as `application.yml` in the server's file manager, set a password,
+# restart the server, and use the same password as LAVALINK_PASSWORD in Render.
+
+server:
+  port: 10012 # must match the port your host assigned to the server
+  address: 0.0.0.0
+
+plugins:
+  # Official YouTube plugin (Lavalink's built-in YouTube source no longer works)
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    # Tried in this order; WEB/ANDROID_VR handle playlists, MUSIC handles search
+    clients:
+      - MUSIC
+      - ANDROID_VR
+      - WEB
+      - WEBEMBEDDED
+
+  # LavaSrc: Spotify (and more) links. Spotify only provides metadata, so each
+  # Spotify track is played by finding the same song on YouTube.
+  lavasrc:
+    providers:
+      - "ytsearch:\"%ISRC%\"" # exact match by the song's ISRC code, when available
+      - "ytsearch:%QUERY%" # otherwise search by title and artist
+    sources:
+      spotify: true
+    spotify:
+      # Optional but recommended: free keys from https://developer.spotify.com/dashboard
+      # make Spotify loading more reliable. Uncomment and fill in both lines.
+      # clientId: "your-spotify-client-id"
+      # clientSecret: "your-spotify-client-secret"
+      countryCode: "CH"
+      playlistLoadLimit: 6 # pages of 100 tracks
+      albumLoadLimit: 6 # pages of 50 tracks
+
+lavalink:
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.2"
+      snapshot: false
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
+      repository: "https://maven.lavalink.dev/releases"
+      snapshot: false
+  server:
+    password: "CHANGE_ME" # use a long random password; the bot needs the same one
+    sources:
+      youtube: false # replaced by the YouTube plugin above
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      http: true
+      local: false
+    # Audio buffering: a bigger frame buffer rides out short network hiccups
+    # (default 5000). bufferDurationMs smooths over Java pauses (default 400).
+    bufferDurationMs: 600
+    frameBufferDurationMs: 10000
+    opusEncodingQuality: 10
+    resamplingQuality: MEDIUM
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
+    youtubePlaylistLoadLimit: 6
+    playerUpdateInterval: 5
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+    gc-warnings: true
+
+metrics:
+  prometheus:
+    enabled: false
+    endpoint: /metrics
+
+sentry:
+  dsn: ""
+  environment: ""
+
+logging:
+  file:
+    path: ./logs/
+  level:
+    root: INFO
+    lavalink: INFO
+  request:
+    enabled: false
