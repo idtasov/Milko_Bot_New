@@ -27,6 +27,13 @@ plugins:
     # On first start the console shows a code to enter at https://www.google.com/device.
     # Afterwards it prints a refresh token: paste it below and remove the # so you
     # don't have to log in again after restarts.
+    # Decodes YouTube's protected stream links on an external server that is
+    # updated quickly when YouTube changes its player code (which otherwise
+    # breaks playback with "Must find sig function"). Free public instance:
+    # https://github.com/kikkia/yt-cipher
+    remoteCipher:
+      url: "https://cipher.kikkia.dev/"
+      userAgent: "milko-bot"
     oauth:
       enabled: true
       # refreshToken: "paste-your-refresh-token-here"
