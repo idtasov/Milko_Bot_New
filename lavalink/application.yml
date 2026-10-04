@@ -13,12 +13,23 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    # Tried in this order; WEB/ANDROID_VR handle playlists, MUSIC handles search
+    # Tried in this order. YouTube often blocks data-centre servers from playing
+    # without a login, so TVHTML5_SIMPLY (no login needed) is tried early and TV
+    # (uses the OAuth login below) is the reliable fallback.
     clients:
       - MUSIC
+      - TVHTML5_SIMPLY
       - ANDROID_VR
       - WEB
       - WEBEMBEDDED
+      - TV
+    # Log in with a SPARE Google account (never your main one: YouTube may ban it).
+    # On first start the console shows a code to enter at https://www.google.com/device.
+    # Afterwards it prints a refresh token: paste it below and remove the # so you
+    # don't have to log in again after restarts.
+    oauth:
+      enabled: true
+      # refreshToken: "paste-your-refresh-token-here"
 
   # LavaSrc: Spotify (and more) links. Spotify only provides metadata, so each
   # Spotify track is played by finding the same song on YouTube.
@@ -29,10 +40,10 @@ plugins:
     sources:
       spotify: true
     spotify:
-      # Optional but recommended: free keys from https://developer.spotify.com/dashboard
-      # make Spotify loading more reliable. Uncomment and fill in both lines.
-      # clientId: "your-spotify-client-id"
-      # clientSecret: "your-spotify-client-secret"
+      # Required: free keys from https://developer.spotify.com/dashboard
+      # (Spotify's keyless "anonymous" login no longer works).
+      clientId: "PASTE_SPOTIFY_CLIENT_ID_HERE"
+      clientSecret: "PASTE_SPOTIFY_CLIENT_SECRET_HERE"
       countryCode: "CH"
       playlistLoadLimit: 6 # pages of 100 tracks
       albumLoadLimit: 6 # pages of 50 tracks
@@ -83,5 +94,7 @@ logging:
   level:
     root: INFO
     lavalink: INFO
+    # Shows the YouTube login code and refresh token in the console
+    dev.lavalink.youtube.http.YoutubeOauth2Handler: INFO
   request:
     enabled: false
