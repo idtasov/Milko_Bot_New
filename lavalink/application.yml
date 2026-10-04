@@ -45,12 +45,9 @@ plugins:
       - "ytsearch:\"%ISRC%\"" # exact match by the song's ISRC code, when available
       - "ytsearch:%QUERY%" # otherwise search by title and artist
     sources:
-      spotify: true
+      # Off: the bot plays Spotify links itself via YouTube (Spotify's API needs Premium)
+      spotify: false
     spotify:
-      # Required: free keys from https://developer.spotify.com/dashboard
-      # (Spotify's keyless "anonymous" login no longer works).
-      clientId: "PASTE_SPOTIFY_CLIENT_ID_HERE"
-      clientSecret: "PASTE_SPOTIFY_CLIENT_SECRET_HERE"
       countryCode: "CH"
       playlistLoadLimit: 6 # pages of 100 tracks
       albumLoadLimit: 6 # pages of 50 tracks
