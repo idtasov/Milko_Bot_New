@@ -165,7 +165,8 @@ module.exports = {
         .addFields(
           {
             name: "Enqueued",
-            value: `\`${res.tracks.length}\` songs`,
+            // Spotify playlists report their full size; the rest are added in the background
+            value: `\`${res.playlist.totalTracks || res.tracks.length}\` songs`,
             inline: true,
           },
           {

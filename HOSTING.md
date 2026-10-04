@@ -30,7 +30,7 @@ The bot works with **Lavalink v4** servers and **NodeLink** servers (both use th
 
 **Use servers running the newest Lavalink (4.2 or later).** Since March 2026, Discord requires encrypted voice (called DAVE). Older servers can connect and "start" a song, but no sound reaches the voice channel. If that happens, the Render log shows `Voice connection closed by Discord. Code: 4017`.
 
-Spotify, Apple Music and Deezer links only work if the server has the LavaSrc plugin (the list usually says so). YouTube and SoundCloud work on almost all of them.
+**Spotify links** are handled by the bot itself: it reads the song list from Spotify's public embed page (up to 100 songs, no Spotify account or Premium needed) and plays each song from YouTube. Apple Music and Deezer links only work if the server has the LavaSrc plugin. YouTube and SoundCloud work on almost all servers.
 
 Public servers come and go. If music stops working one day, swap in another server by updating these variables in Render.
 

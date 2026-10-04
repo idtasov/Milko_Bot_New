@@ -65,6 +65,7 @@
     "passport-discord": "^0.1.4",
     "pretty-ms": "^7.0.1",
     "rlyrics": "^2.0.1",
+    "spotify-url-info": "3.3.3",
     "systeminformation": "^5.9.12",
     "winston": "^3.3.3",
     "youtube-sr": "^4.3.4"
