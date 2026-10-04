@@ -13,16 +13,16 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    # Tried in this order. YouTube often blocks data-centre servers from playing
-    # without a login, so TVHTML5_SIMPLY (no login needed) is tried early and TV
-    # (uses the OAuth login below) is the reliable fallback.
+    # Tried in this order. YouTube blocks data-centre servers from playing without
+    # a login, so TV (uses the OAuth login below) goes first; MUSIC only searches.
     clients:
       - MUSIC
+      - TV
+      - IOS
       - TVHTML5_SIMPLY
       - ANDROID_VR
       - WEB
       - WEBEMBEDDED
-      - TV
     # Log in with a SPARE Google account (never your main one: YouTube may ban it).
     # On first start the console shows a code to enter at https://www.google.com/device.
     # Afterwards it prints a refresh token: paste it below and remove the # so you
@@ -50,8 +50,10 @@ plugins:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.2"
-      snapshot: false
+    # Development snapshot (Sept 2026) with fixes made after 1.18.2: signature
+    # cipher, TV client and iOS playback. Switch back to a release once one includes them.
+    - dependency: "dev.lavalink.youtube:youtube-plugin:2be8e542d3f6f178e048dca565892684c2e40177"
+      snapshot: true
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
       repository: "https://maven.lavalink.dev/releases"
       snapshot: false
