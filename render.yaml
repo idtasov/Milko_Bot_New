@@ -29,6 +29,9 @@ services:
         sync: false
       - key: LAVALINK_SECURE
         sync: false
+      # Optional: YouTube login token for your own Lavalink server (see HOSTING.md)
+      - key: YOUTUBE_REFRESH_TOKEN
+        sync: false
       # Optional backup Lavalink server (leave blank in Render if you don't have one)
       - key: LAVALINK2_HOST
         sync: false

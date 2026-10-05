@@ -34,9 +34,13 @@ plugins:
     remoteCipher:
       url: "https://cipher.kikkia.dev/"
       userAgent: "milko-bot"
+    # YouTube login. Don't put the refresh token here: Lavalink would renew it
+    # with Google while starting and fail to start whenever Google is slow.
+    # Set YOUTUBE_REFRESH_TOKEN on the bot instead; it sends the token to this
+    # server every time it connects (util/youtubeToken.js).
     oauth:
       enabled: true
-      # refreshToken: "paste-your-refresh-token-here"
+      skipInitialization: true # don't start a new Google login at startup
 
   # LavaSrc: Spotify (and more) links. Spotify only provides metadata, so each
   # Spotify track is played by finding the same song on YouTube.

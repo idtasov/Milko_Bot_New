@@ -69,6 +69,9 @@ module.exports = {
 			retryAmount: 10000, //- The amount of times to retry connecting to the node if connection got dropped (high = keep trying).
 			retryDelay: 15 * 1000, //- Delay (ms) between reconnect attempts if connection is lost.
 			secure: bool("LAVALINK_SECURE", true), //- Can be either true or false. Only use true if ssl is enabled!
+			// YouTube login (OAuth refresh token) the bot hands to this server after connecting
+			// (see util/youtubeToken.js). Only set this for your own server, never a public one.
+			youtubeRefreshToken: process.env.YOUTUBE_REFRESH_TOKEN || "",
 		},
 		{
 			identifier: "Backup Node",

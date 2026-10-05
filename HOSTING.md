@@ -34,6 +34,8 @@ The bot works with **Lavalink v4** servers and **NodeLink** servers (both use th
 
 Public servers come and go. If music stops working one day, swap in another server by updating these variables in Render.
 
+**Your own Lavalink server with a YouTube login (OAuth):** put the refresh token in Render as `YOUTUBE_REFRESH_TOKEN`, not in the server's `application.yml` (use the template in `lavalink/application.yml`). If the token is in `application.yml`, Lavalink renews the login with Google while it starts, and when Google is slow Lavalink crashes on startup. With the token in Render, the bot sends it to your server each time it connects and retries if Google is slow. The Render log then shows `YouTube login sent to the server.` After an outage, the bot also moves playback from the backup back to your server, at the start of the next song.
+
 ## 3. Deploy on Render
 
 1. Push this repo to your GitHub account.
