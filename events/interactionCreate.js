@@ -65,7 +65,7 @@ module.exports = async (client, interaction) => {
 
         const Random = "ytsearch"[Math.floor(Math.random() * "ytsearch".length)];
 
-        if (interaction.commandName == "play") {
+        if (["play", "playnow"].includes(interaction.commandName)) {
             checkRegex()
             let choice = []
             await yt.search(url || Random, { safeSearch: false, limit: 25 }).then(result => {

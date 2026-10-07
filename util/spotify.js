@@ -60,8 +60,10 @@ async function findBatch(manager, songs, requester) {
  * Resolves a Spotify link into a search result shaped like magmastream's.
  * For playlists/albums the first few songs are returned right away and the
  * rest are added to `player`'s queue in the background, in order.
+ * With `playFirst` (/playnow) the rest go right after the first songs instead of
+ * at the end of the queue, so the playlist stays together at the front.
  */
-async function resolveSpotify(player, url, requester) {
+async function resolveSpotify(player, url, requester, { playFirst = false } = {}) {
 	// The library fetches and parses the embed page; the song fields are read here
 	// directly so a missing optional field (e.g. cover art) can't break playback.
 	let data;
@@ -121,6 +123,7 @@ async function resolveSpotify(player, url, requester) {
 	if (remaining.length) {
 		setTimeout(async () => {
 			let missing = 0;
+			let lastAdded = tracks[tracks.length - 1];
 			for (let i = 0; i < remaining.length; i += BACKGROUND_BATCH) {
 				// Stop if the player was stopped or replaced meanwhile
 				if (manager.players.get(player.guildId) !== player) return;
@@ -128,7 +131,17 @@ async function resolveSpotify(player, url, requester) {
 				const found = await findBatch(manager, batch, requester);
 				missing += batch.length - found.length;
 				if (manager.players.get(player.guildId) !== player) return;
-				if (found.length) player.queue.add(found.map((f) => f.track));
+				if (!found.length) continue;
+				const batchTracks = found.map((f) => f.track);
+				const last = batchTracks[batchTracks.length - 1]; // queue.add may shift the array
+				if (playFirst) {
+					// Right after this playlist's last queued song; if that one is playing
+					// or already played, indexOf is -1, so this becomes the front (0)
+					player.queue.add(batchTracks, player.queue.indexOf(lastAdded) + 1);
+				} else {
+					player.queue.add(batchTracks);
+				}
+				lastAdded = last;
 			}
 			if (missing) {
 				console.log(`[Spotify] ${missing} of ${songs.length} songs could not be found on YouTube`);
