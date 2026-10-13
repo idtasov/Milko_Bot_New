@@ -57,14 +57,21 @@ plugins:
       albumLoadLimit: 6 # pages of 50 tracks
 
 lavalink:
-  plugins:
-    # Development snapshot (Sept 2026) with fixes made after 1.18.2: signature
-    # cipher, TV client and iOS playback. Switch back to a release once one includes them.
-    - dependency: "dev.lavalink.youtube:youtube-plugin:2be8e542d3f6f178e048dca565892684c2e40177"
-      snapshot: true
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
-      repository: "https://maven.lavalink.dev/releases"
-      snapshot: false
+  # Plugins are loaded from the "plugins" folder. When plugins are listed here,
+  # Lavalink contacts maven.lavalink.dev on EVERY start to check for updates, and
+  # refuses to start if that site can't be reached. So the list stays empty once
+  # the jars are in the plugins folder.
+  # First install, or updating a plugin: change "plugins: []" to "plugins:",
+  # remove the "#  " in front of the lines below, start Lavalink once so the
+  # jars download, then undo both changes.
+  plugins: []
+  #  # Development snapshot (Sept 2026) with fixes made after 1.18.2: signature
+  #  # cipher, TV client and iOS playback. Switch back to a release once one includes them.
+  #  - dependency: "dev.lavalink.youtube:youtube-plugin:2be8e542d3f6f178e048dca565892684c2e40177"
+  #    snapshot: true
+  #  - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.8.3"
+  #    repository: "https://maven.lavalink.dev/releases"
+  #    snapshot: false
   server:
     password: "CHANGE_ME" # use a long random password; the bot needs the same one
     sources:
