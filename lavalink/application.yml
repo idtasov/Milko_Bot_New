@@ -78,7 +78,7 @@ lavalink:
       youtube: false # replaced by the YouTube plugin above
       bandcamp: true
       soundcloud: true
-      twitch: true
+      twitch: false # contacts twitch.tv at startup; not needed for music
       vimeo: true
       http: true
       local: false
